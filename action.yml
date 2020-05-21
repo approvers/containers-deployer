@@ -1,0 +1,20 @@
+name: 'Containers Deployer'
+description: 'A GitHub Action to deploy containers to Docker / Podman continuously.'
+
+inputs:
+    ssh-host:
+        description: 'Hostname or IP address of the server where to deploy.'
+        required: true
+
+    ssh-port:
+        description: 'Port number to SSH server.'
+        required: false
+        default: 22
+
+    ssh-user:
+        description: 'Username to work behalf of on the server.'
+        required: true
+
+    ssh-key:
+        description: 'SSH identity key for authentication.'
+        required: true
