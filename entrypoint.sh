@@ -7,6 +7,7 @@ SSH_KEY=${INPUT_SSH_KEY}
 SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
 
 setup_directories() {
+    mkdir -p ~/.cdep/repo
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
 }
@@ -29,6 +30,7 @@ copy() {
     fi
 }
 
+setup_directories
 copy ./deploy.sh ~/.cdep/deploy.sh false
 copy $SOURCE_DIRECTORY ~/.cdep/repo true
 ssh -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
