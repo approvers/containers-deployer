@@ -15,7 +15,7 @@ setup_directories() {
 setup_ssh_key() {
     echo "$SSH_KEY" > ~/.ssh/identity
     chmod 600 ~/.ssh/identity
-    ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+    ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
 }
 
 copy() {
