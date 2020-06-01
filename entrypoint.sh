@@ -6,9 +6,8 @@ SSH_USER=${INPUT_SSH_USER}
 SSH_KEY=${INPUT_SSH_KEY}
 SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
 
-echo $SSH_PORT
-
 setup_directories() {
+    mkdir -p ~/.cdep/repo
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
 }
@@ -25,12 +24,13 @@ copy() {
     RECURSIVE=$3
 
     if $RECURSIVE; then
-        scp -i ~/.ssh/identity -P ${SSH_PORT}
-    else
         scp -i ~/.ssh/identity -P ${SSH_PORT} -r $FROM $TO
+    else
+        scp -i ~/.ssh/identity -P ${SSH_PORT} $FROM $TO
     fi
 }
 
+setup_directories
 copy ./deploy.sh ~/.cdep/deploy.sh false
 copy $SOURCE_DIRECTORY ~/.cdep/repo true
-ssh -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
+ssh -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
