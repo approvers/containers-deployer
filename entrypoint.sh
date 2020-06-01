@@ -33,4 +33,4 @@ copy() {
 
 copy ./deploy.sh ~/.cdep/deploy.sh false
 copy $SOURCE_DIRECTORY ~/.cdep/repo true
-ssh -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
+ssh -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
