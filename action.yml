@@ -6,19 +6,19 @@ runs:
     image: 'Dockerfile'
 
 inputs:
-    ssh-host:
+    ssh_host:
         description: 'Hostname or IP address of the server where to deploy.'
         required: true
 
-    ssh-port:
+    ssh_port:
         description: 'Port number to SSH server.'
         required: false
         default: 22
 
-    ssh-user:
+    ssh_user:
         description: 'Username to work behalf of on the server.'
         required: true
 
-    ssh-key:
+    ssh_key:
         description: 'SSH identity key for authentication.'
         required: true
