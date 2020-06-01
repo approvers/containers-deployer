@@ -25,9 +25,9 @@ copy() {
     RECURSIVE=$3
 
     if $RECURSIVE; then
-        scp -i ~/.ssh/identity -P ${SSH_PORT}
-    else
         scp -i ~/.ssh/identity -P ${SSH_PORT} -r $FROM $TO
+    else
+        scp -i ~/.ssh/identity -P ${SSH_PORT} $FROM $TO
     fi
 }
 
