@@ -31,6 +31,7 @@ copy() {
 }
 
 setup_directories
+setup_ssh_key
 copy ./deploy.sh ~/.cdep/deploy.sh false
 copy $SOURCE_DIRECTORY ~/.cdep/repo true
 ssh -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
