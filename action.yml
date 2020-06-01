@@ -1,6 +1,10 @@
 name: 'Containers Deployer'
 description: 'A GitHub Action to deploy containers to Docker / Podman continuously.'
 
+runs:
+    using: 'docker'
+    image: 'Dockerfile'
+
 inputs:
     ssh-host:
         description: 'Hostname or IP address of the server where to deploy.'
