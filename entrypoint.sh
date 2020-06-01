@@ -12,7 +12,7 @@ setup_directories() {
 }
 
 setup_ssh_key() {
-    cat - >> ~/.ssh/identity <<< $SSH_KEY
+    echo "$SSH_KEY" > ~/.ssh/identity
     chmod 600 ~/.ssh/identity
     ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
 }
