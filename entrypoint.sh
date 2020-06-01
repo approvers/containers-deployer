@@ -6,8 +6,6 @@ SSH_USER=${INPUT_SSH_USER}
 SSH_KEY=${INPUT_SSH_KEY}
 SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
 
-echo $SSH_PORT
-
 setup_directories() {
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
