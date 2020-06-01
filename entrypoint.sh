@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
-SSH_HOST=${INPUT_SSH-HOST}
-SSH_PORT=${INPUT_SSH-PORT}
-SSH_USER=${INPUT_SSH-USER}
-SSH_KEY=${INPUT_SSH-KEY}
-SOURCE_DIRECTORY=$GITHUB_WORKSPACE
+SSH_HOST=${INPUT_SSH_HOST}
+SSH_PORT=${INPUT_SSH_PORT}
+SSH_USER=${INPUT_SSH_USER}
+SSH_KEY=${INPUT_SSH_KEY}
+SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
+
+echo $SSH_PORT
 
 setup_directories() {
     mkdir -p ~/.ssh
@@ -23,9 +25,9 @@ copy() {
     RECURSIVE=$3
 
     if $RECURSIVE; then
-        scp -i ~/.ssh/identity -P $SSH_PORT
+        scp -i ~/.ssh/identity -P ${SSH_PORT}
     else
-        scp -i ~/.ssh/identity -P $SSH_POST -r $FROM $TO
+        scp -i ~/.ssh/identity -P ${SSH_PORT} -r $FROM $TO
     fi
 }
 
