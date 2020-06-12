@@ -34,4 +34,4 @@ setup_directories
 setup_ssh_key
 copy /deploy.sh $SSH_HOST:~/.cdep/deploy.sh false
 copy $SOURCE_DIRECTORY $SSH_HOST:~/.cdep/repo true
-ssh -o $SSH_OPTIONS -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
+ssh -o $SSH_OPTIONS -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST "~/.cdep/deploy.sh"
