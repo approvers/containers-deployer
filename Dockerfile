@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add --update --no-cache openssh
+RUN apk add --update --no-cache openssh bind-tools
 
 COPY entrypoint.sh /entrypoint.sh
 COPY deploy.sh /deploy.sh
