@@ -26,7 +26,7 @@ copy() {
     RECURSIVE=$3
 
     if $RECURSIVE; then
-        scp -i ~/.ssh/identity -P ${SSH_PORT} -r $FROM $TO
+        scp -i ~/.ssh/identity -r -P ${SSH_PORT} $FROM $TO
     else
         scp -i ~/.ssh/identity -P ${SSH_PORT} $FROM $TO
     fi
@@ -34,6 +34,6 @@ copy() {
 
 setup_directories
 setup_ssh_key
-copy /deploy.sh ~/.cdep/deploy.sh false
-copy $SOURCE_DIRECTORY ~/.cdep/repo true
+copy /deploy.sh $SSH_HOST:~/.cdep/deploy.sh false
+copy $SOURCE_DIRECTORY $SSH_HOST:~/.cdep/repo true
 ssh -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST ~/.cdep/deploy.sh
