@@ -13,8 +13,8 @@ setup_directories() {
 }
 
 setup_ssh_key() {
-    echo "$SSH_KEY" > ~/.ssh/identity
-    chmod 600 ~/.ssh/identity
+    echo "$SSH_KEY" > ./identity
+    chmod 600 ./identity
 }
 
 setup_directories
@@ -24,7 +24,7 @@ cat - << EOS > ./config
 Host $SSH_HOST
     User $SSH_USER
     Port $SSH_PORT
-    IdentityFile ~/.ssh/identity
+    IdentityFile ./identity
     StrictHostKeyChecking no
 EOS
 cat ./config
