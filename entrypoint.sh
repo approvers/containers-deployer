@@ -6,19 +6,8 @@ SSH_USER=${INPUT_SSH_USER}
 SSH_KEY=${INPUT_SSH_KEY}
 SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
 
-setup_directories() {
-    mkdir -p ~/.cdep/repo
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
-}
-
-setup_ssh_key() {
-    echo "$SSH_KEY" > ./identity
-    chmod 600 ./identity
-}
-
-setup_directories
-setup_ssh_key
+echo "$SSH_KEY" > ./identity
+chmod 600 ./identity
 
 cat - << EOS > ./config
 Host $SSH_HOST
