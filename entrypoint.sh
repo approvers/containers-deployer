@@ -19,5 +19,5 @@ EOS
 
 ssh -F ./config $SSH_HOST mkdir -p "~/.cdep/repo"
 rsync -a -v -e "ssh -F ./config" /deploy.sh "$SSH_HOST:~/.cdep/"
-rsync -a -v -e "ssh -F ./config" --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/.cdep/repo/"
+rsync -a -v -e "ssh -F ./config" --delete --exclude ".git" "$SOURCE_DIRECTORY/" "$SSH_HOST:~/.cdep/repo/"
 ssh -F ./config $SSH_HOST "~/.cdep/deploy.sh"
