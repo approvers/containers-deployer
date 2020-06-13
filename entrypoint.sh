@@ -28,6 +28,6 @@ Host $SSH_HOST
     StrictHostKeyChecking no
 EOS
 cat ./config
-rsync -a -e "ssh -F ./config" /deploy.sh "$SSH_HOST:~/.cdep/"
-rsync -a -e "ssh -F ./config" --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
+rsync -a -v -e "ssh -F ./config" /deploy.sh "$SSH_HOST:~/.cdep/"
+rsync -a -v -e "ssh -F ./config" --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
 ssh $SSH_HOST "~/.cdep/deploy.sh"
