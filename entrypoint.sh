@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-SSH_OPTIONS="StrictHostKeyChecking=no"
 SSH_HOST=${INPUT_SSH_HOST}
 SSH_PORT=${INPUT_SSH_PORT}
 SSH_USER=${INPUT_SSH_USER}
@@ -18,20 +17,16 @@ setup_ssh_key() {
     chmod 600 ~/.ssh/identity
 }
 
-copy() {
-    FROM=$1
-    TO=$2
-    RECURSIVE=$3
-
-    if $RECURSIVE; then
-        scp -o $SSH_OPTIONS -i ~/.ssh/identity -r -P ${SSH_PORT} $FROM $TO
-    else
-        scp -o $SSH_OPTIONS -i ~/.ssh/identity -P ${SSH_PORT} $FROM $TO
-    fi
-}
-
 setup_directories
 setup_ssh_key
-copy /deploy.sh "$SSH_USER@$SSH_HOST:~/.cdep/deploy.sh" false
-copy $SOURCE_DIRECTORY "$SSH_USER@$SSH_HOST:~/.cdep/repo" true
+
+cat - << EOS > ~/.ssh/config
+Host $SSH_HOST
+    User $SSH_USER
+    IdentityFile ~/.ssh/identity
+    StrictHostKeyChecking no
+EOS
+
+rsync -a /deploy.sh "$SSH_HOST:~/.cdep/"
+rsync -a --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
 ssh -o $SSH_OPTIONS -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST "~/.cdep/deploy.sh"
