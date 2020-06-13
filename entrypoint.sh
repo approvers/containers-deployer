@@ -6,28 +6,33 @@ SSH_USER=${INPUT_SSH_USER}
 SSH_KEY=${INPUT_SSH_KEY}
 SOURCE_DIRECTORY=${GITHUB_WORKSPACE}
 
-setup_directories() {
-    mkdir -p ~/.cdep/repo
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
+SSH_DIR="$HOME/.ssh"
+SSH_CONFIG="$SSH_DIR/config"
+SSH_IDENTITY="$SSH_DIR/identity"
+SSH_KNOWN_HOSTS="$SSH_DIR/known_hosts"
+
+_ssh() {
+    ssh -F "$SSH_CONFIG" "$@"
 }
 
-setup_ssh_key() {
-    echo "$SSH_KEY" > ~/.ssh/identity
-    chmod 600 ~/.ssh/identity
+_rsync() {
+    rsync -a -v -e "ssh -F $SSH_CONFIG" "$@"
 }
 
-setup_directories
-setup_ssh_key
+mkdir -p "$SSH_DIR"
+echo "$SSH_KEY" > $SSH_IDENTITY
+chmod 600 $SSH_IDENTITY
 
-cat - << EOS > ~/.ssh/config
+cat - << EOS > $SSH_CONFIG
 Host $SSH_HOST
     User $SSH_USER
     Port $SSH_PORT
-    IdentityFile ~/.ssh/identity
+    IdentityFile $SSH_IDENTITY
+    UserKnownHostsFile $SSH_KNOWN_HOSTS
     StrictHostKeyChecking no
 EOS
 
-rsync -a /deploy.sh "$SSH_HOST:~/.cdep/"
-rsync -a --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
-ssh $SSH_HOST "~/.cdep/deploy.sh"
+_ssh $SSH_HOST mkdir -p "~/.cdep/repo"
+_rsync /deploy.sh "$SSH_HOST:~/.cdep/"
+_rsync  --delete --exclude ".git" "$SOURCE_DIRECTORY/" "$SSH_HOST:~/.cdep/repo/"
+_ssh $SSH_HOST "~/.cdep/deploy.sh"
