@@ -23,10 +23,11 @@ setup_ssh_key
 cat - << EOS > ~/.ssh/config
 Host $SSH_HOST
     User $SSH_USER
+    Port $SSH_PORT
     IdentityFile ~/.ssh/identity
     StrictHostKeyChecking no
 EOS
 
 rsync -a /deploy.sh "$SSH_HOST:~/.cdep/"
 rsync -a --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
-ssh -o $SSH_OPTIONS -i ~/.ssh/identity -p $SSH_PORT $SSH_USER@$SSH_HOST "~/.cdep/deploy.sh"
+ssh $SSH_HOST "~/.cdep/deploy.sh"
