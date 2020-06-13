@@ -11,7 +11,9 @@ SSH_CONFIG="$SSH_DIR/config"
 SSH_IDENTITY="$SSH_DIR/identity"
 SSH_KNOWN_HOSTS="$SSH_DIR/known_hosts"
 SSH_COMMAND="ssh -F $SSH_CONFIG"
-RSYNC_COMMAND="rsync -a -v -e ${SSH_COMMAND}"
+RSYNC_COMMAND="rsync -a -v"
+
+export RSYNC_RSH="$SSH_COMMAND"
 
 mkdir -p "$SSH_DIR"
 echo "$SSH_KEY" > $SSH_IDENTITY
