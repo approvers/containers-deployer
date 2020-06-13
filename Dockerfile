@@ -5,4 +5,4 @@ RUN apk add --update --no-cache openssh rsync shadow
 COPY entrypoint.sh /entrypoint.sh
 COPY deploy.sh /deploy.sh
 
-ENTRYPOINT [ "/bin/sh", "-c", "usermod -d /github/home root && /entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
