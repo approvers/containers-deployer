@@ -20,14 +20,14 @@ setup_ssh_key() {
 setup_directories
 setup_ssh_key
 
-cat - << EOS > ~/.ssh/config
+cat - << EOS > ./config
 Host $SSH_HOST
     User $SSH_USER
     Port $SSH_PORT
     IdentityFile ~/.ssh/identity
     StrictHostKeyChecking no
 EOS
-cat ~/.ssh/config
-rsync -a -e "ssh -F ~/.ssh/config" /deploy.sh "$SSH_HOST:~/.cdep/"
-rsync -a -e "ssh -F ~/.ssh/config" --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
+cat ./config
+rsync -a -e "ssh -F ./config" /deploy.sh "$SSH_HOST:~/.cdep/"
+rsync -a -e "ssh -F ./config" --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
 ssh $SSH_HOST "~/.cdep/deploy.sh"
