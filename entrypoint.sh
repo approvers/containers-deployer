@@ -10,10 +10,14 @@ SSH_DIR="$HOME/.ssh"
 SSH_CONFIG="$SSH_DIR/config"
 SSH_IDENTITY="$SSH_DIR/identity"
 SSH_KNOWN_HOSTS="$SSH_DIR/known_hosts"
-SSH_COMMAND="ssh -F $SSH_CONFIG"
-RSYNC_COMMAND="rsync -a -v"
 
-export RSYNC_RSH="$SSH_COMMAND"
+_ssh() {
+    ssh -F "$SSH_CONFIG" "$@"
+}
+
+_rsync() {
+    rsync -a -v -e "ssh -F $SSH_CONFIG" "$@"
+}
 
 mkdir -p "$SSH_DIR"
 echo "$SSH_KEY" > $SSH_IDENTITY
@@ -28,7 +32,7 @@ Host $SSH_HOST
     StrictHostKeyChecking no
 EOS
 
-${SSH_COMMAND} $SSH_HOST mkdir -p "~/.cdep/repo"
-${RSYNC_COMMAND} /deploy.sh "$SSH_HOST:~/.cdep/"
-${RSYNC_COMMAND} --delete --exclude ".git" "$SOURCE_DIRECTORY/" "$SSH_HOST:~/.cdep/repo/"
-${SSH_COMMAND} $SSH_HOST "~/.cdep/deploy.sh"
+_ssh $SSH_HOST mkdir -p "~/.cdep/repo"
+_rsync /deploy.sh "$SSH_HOST:~/.cdep/"
+_rsync  --delete --exclude ".git" "$SOURCE_DIRECTORY/" "$SSH_HOST:~/.cdep/repo/"
+_ssh $SSH_HOST "~/.cdep/deploy.sh"
