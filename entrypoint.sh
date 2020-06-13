@@ -27,7 +27,7 @@ Host $SSH_HOST
     IdentityFile ~/.ssh/identity
     StrictHostKeyChecking no
 EOS
-
+cat ~/.ssh/config
 rsync -a /deploy.sh "$SSH_HOST:~/.cdep/"
 rsync -a --delete "$SOURCE_DIRECTORY/" "$SSH_HOST:~/cdep/repo/"
 ssh $SSH_HOST "~/.cdep/deploy.sh"
